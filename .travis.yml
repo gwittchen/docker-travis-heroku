@@ -9,9 +9,12 @@ before_script:
 script:
 - docker-compose run --rm notes bundle exec rake spec
 after_success:
-  # for local testing, needs to be set on travis, too:
-  # export HEROKU_TOKEN=$(heroku auth:token)
 - docker login -u _ -p "$HEROKU_TOKEN"  registry.heroku.com
-- docker build -t registry.heroku.com/docker-travis-heroku/web -f Dockerfile.production .
+- docker build -t registry.heroku.com/docker-travis-heroku/web -f Dockerfile.production
+  .
 - docker push registry.heroku.com/docker-travis-heroku/web
 - heroku run --app docker-travis-heroku bundle exec rails db:migrate
+
+env:
+  global:
+    secure: h0vEPB+Y0J4u5tW7fj2JQ+kxeMwnmS+l+45FZLL0GzXDKmiMUa5O2UzgPd3kvVN0+Fupdxb5ZHfIBGPEOzsMbnSZHMO082q9mdimFD1L8n4jnfYz/k4SkYxPNXWKgabcX0+4RZQ8ZTBLTFNGS51BZ2l18ECiDiJFt7k02jCx2Gza5eY8Lv5TgxWuyhWExNneatcHLFNxKVmpVz/OeFtAwQANkW6OyCOzKg9cJG5EGxUaJgHlm2/r8Loepb+hQPSv5YrfXwOwdaNw8OEqD6CQ9BppcYW/Pv7rswevg+ypSoASUfzGg4xTvjahyCunZn4HPLuZYERuS15Ff5cgvbUTK9g/+XxyWPKuzFs8GyNWZTcVvWTvRcZajWAbbtfig0yBSMjfwjsxoiIJW7uvB0R3cujk+v0Je0lg2gtH7OYdqCdCkT8bJfQair8XODxnhL78tofrQukKXr/HIfTrBVPFpS14MkygHD38zjIgaTNz7Pt0w2dnrafRAdmjLDBa2sEKmY/4snrYARK4r4AD5sbt+5R+FSJPCuYA8AQGikNwJnpsm/xR1vO4u4NeTPALddCQ47DDvF/zzzhqeBd28hyTyCVzPB/j9M0HiUGNNWOXHjN5OZATo07QJXFBHnbaL9jl0lQLqCln9hD5oo8nRrRwnQ9GSTgMFl6r17EvmcDiKFY=
