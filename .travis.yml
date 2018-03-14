@@ -10,9 +10,9 @@ script:
 - docker-compose run --rm notes bundle exec rake spec
 after_success:
 - echo $HEROKU_TOKEN | docker login -u _ --password-stdin registry.heroku.com
-- docker build -t registry.heroku.com/bw-docker-test/bw-docker-web -f Dockerfile.production
+- docker build -t registry.heroku.com/bw-docker-test/web -f Dockerfile.production
   .
-- docker push registry.heroku.com/bw-docker-test/bw-docker-web
+- docker push registry.heroku.com/bw-docker-test/web
 - heroku run --app bw-docker-web bundle exec rails db:migrate
 before_install:
 - openssl aes-256-cbc -K $encrypted_07d74bfc0e91_key -iv $encrypted_07d74bfc0e91_iv
