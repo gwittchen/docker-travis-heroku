@@ -10,14 +10,10 @@ script:
 - docker-compose run --rm notes bundle exec rake spec
 after_success:
 - echo $HEROKU_TOKEN | docker login -u _ --password-stdin registry.heroku.com
-- docker build -t registry.heroku.com/bw-gwi-docker/web -f Dockerfile.production
-  .
+- docker build -t registry.heroku.com/bw-gwi-docker/web -f Dockerfile.production .
 - docker push registry.heroku.com/bw-gwi-docker/web
 - heroku run --app bw-gwi-docker bundle exec rails db:migrate
 before_install:
 - openssl aes-256-cbc -K $encrypted_07d74bfc0e91_key -iv $encrypted_07d74bfc0e91_iv
   -in .heroku-netrc.enc -out .heroku-netrc -d
 - cat .heroku-netrc >> $HOME/.netrc
-env:
-  global:
-    secure: I117PKcz8IhoqOJovJ5PXSNAwB/1XhVfM1SFdv02+2i5dpdGYSoCtBCAB5/J4PxHgvATBVK9bxraHseEfiwRKCNlWT8mgEbPhoGIbQeKr/l7jO0Q+J2peO9EnSd8u4LMXP3qLigB0EoSb5WzhBpV08zopzDB7OBAio+xW1QDZSn51vrsA+Z9ToRnp+rXl8CllzDOFVioS4+NCKkpOzrTqtT1fcN6KJhHXvRB/afIO1kdEUp53Zif7FkPReV1EM+qeu9P8Ih8MCbQ0wOZips2UsCehzYICJdxh0DGqNa4BlLinjnKQsYYlzuDbdbWuAgzer5ntRf8v7DPKVJPbsQOoc6vRX5WLQ3EwSZAA/4gdjixK8GLOMVJUOocp1gZOxSGW4WF58NwHtpTSse8EvMJnEkI5SxnHSSkbzN8rTvnDUloo19WZfmQ0XvK+85Kga2MKd0AtNgSPdnb/xXihnODa06WCbDyWOiaxgJVhHND9hKYzgDlZ9zr56ChrCbmvOHKC5vFcZyai+iEsrZSRkCG+10JNrsLT56Ldawniul6LG7ysT6T3/aahXZ6W+USIQQYJVSHzjQ3oHxeBb2F1QdmWyib83gDx0khns/yQC5pQNWuYqRsQKco1EP75S/6hoQFDG+6a/1Cj37/TKCs/Fj+C9fqlRsX9hDE0S/Ni/AnMM8=
